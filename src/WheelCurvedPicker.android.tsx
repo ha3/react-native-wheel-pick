@@ -11,7 +11,7 @@ import { PickerProps, PickerItemProps } from '@react-native-picker/picker';
 import { notEmpty } from './utils';
 
 type NativeComponentProps = {
-  data: string[];
+  data: Pick<PickerItemProps, 'label' | 'value'>[];
   selectedIndex: number;
   onValueChange?: (event: any) => void;
   textColor?: ProcessedColorValue | null;
@@ -53,13 +53,13 @@ const WheelPicker: React.FC<
           selected = index;
         }
 
-        const { label } = child.props;
+        const { label, value } = child.props;
 
         if (typeof label !== 'string') {
           return;
         }
 
-        return label;
+        return { label, value: value as PickerItemProps['value'] };
       })
       .filter(notEmpty);
 
@@ -98,7 +98,7 @@ const WheelPicker: React.FC<
   return (
     <View
       pointerEvents={enabled ? 'auto' : 'none'}
-      style={{ backgroundColor: style.backgroundColor }}
+      style={style}
     >
       <WheelPickerView
         selectedIndex={selected}
