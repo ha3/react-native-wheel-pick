@@ -1,10 +1,12 @@
 import * as React from 'react';
 import {
   processColor,
-  ProcessedColorValue,
   requireNativeComponent,
+  ProcessedColorValue,
+  StyleProp,
   StyleSheet,
-  View
+  View,
+  ViewStyle
 } from 'react-native';
 import { PickerProps, PickerItemProps } from '@react-native-picker/picker';
 
@@ -14,6 +16,7 @@ type NativeComponentProps = {
   data: Pick<PickerItemProps, 'label' | 'value'>[];
   selectedIndex: number;
   onValueChange?: (event: any) => void;
+  style?: StyleProp<Omit<ViewStyle, 'backgroundColor' | 'color'>>;
   textColor?: ProcessedColorValue | null;
   textSize?: number;
   selectTextColor?: ProcessedColorValue | null;
@@ -24,7 +27,8 @@ type NativeComponentProps = {
   isShowSelectBackground?: boolean;
 };
 
-const WheelPickerView = requireNativeComponent<NativeComponentProps>('WheelPicker');
+const WheelPickerView =
+  requireNativeComponent<NativeComponentProps>('WheelCurvedPicker');
 
 const WheelPicker: React.FC<
   PickerProps & { selectedItemStyle?: PickerProps['itemStyle'] }
@@ -68,39 +72,30 @@ const WheelPicker: React.FC<
 
   const onSelect = React.useCallback(
     ({ nativeEvent }) => {
-      const { position }: { position: number } = nativeEvent;
-
-      if (onValueChange !== undefined) {
-        if (position >= 0) {
-          const child = React.Children.toArray(children).filter(item => item != null)[
-            position
-          ];
-
-          if (!React.isValidElement(child)) {
-            // @ts-expect-error
-            onValueChange(null, position);
-          } else {
-            const value = child.props.value;
-
-            if (props.selectedValue !== value) {
-              onValueChange(value, position);
-            }
-          }
-        } else {
-          // @ts-expect-error
-          onValueChange(null, position);
-        }
+      if (onValueChange === undefined) {
+        return;
       }
+
+      const { data: value }: { data: number } = nativeEvent;
+      const childIndex = React.Children.toArray(children).findIndex(
+        child => React.isValidElement(child) && child.props.value === value
+      );
+
+      if (childIndex === -1) {
+        // @ts-expect-error
+        onValueChange(null, -1);
+        return;
+      }
+
+      onValueChange(value, childIndex);
     },
     [children, onValueChange, selectedValue, selected]
   );
 
   return (
-    <View
-      pointerEvents={enabled ? 'auto' : 'none'}
-      style={style}
-    >
+    <View pointerEvents={enabled ? 'auto' : 'none'} style={style}>
       <WheelPickerView
+        style={style}
         selectedIndex={selected}
         data={items}
         onValueChange={onSelect}
