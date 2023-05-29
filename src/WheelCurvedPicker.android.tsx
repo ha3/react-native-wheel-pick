@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { PickerProps, PickerItemProps } from '@react-native-picker/picker';
 
-import { notEmpty } from './utils';
+import { notEmpty, removeKeys } from './utils';
 
 type NativeComponentProps = {
   data: Pick<PickerItemProps, 'label' | 'value'>[];
@@ -92,7 +92,10 @@ const WheelPicker: React.FC<
   );
 
   return (
-    <View pointerEvents={enabled ? 'auto' : 'none'} style={style}>
+    <View
+      pointerEvents={enabled ? 'auto' : 'none'}
+      style={removeKeys(style, ['backgroundColor'])}
+    >
       <WheelPickerView
         style={style}
         selectedIndex={selected}

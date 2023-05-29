@@ -15,3 +15,18 @@
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
   return value !== null && value !== undefined;
 };
+
+export const removeKeys = <TObj extends object, TKey extends keyof TObj>(
+  obj: TObj,
+  keys: TKey[]
+): Omit<TObj, TKey> => {
+  return Object.keys(obj).reduce((prev, curr) => {
+    const _curr = curr as TKey;
+
+    if (!keys.includes(_curr)) {
+      prev[_curr] = obj[_curr];
+    }
+
+    return prev;
+  }, {} as TObj);
+};
