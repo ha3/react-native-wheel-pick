@@ -1,8 +1,7 @@
 import * as React from 'react';
 import {
-  processColor,
   requireNativeComponent,
-  ProcessedColorValue,
+  ColorValue,
   StyleProp,
   StyleSheet,
   View,
@@ -17,11 +16,11 @@ type NativeComponentProps = {
   selectedIndex: number;
   onValueChange?: (event: any) => void;
   style?: StyleProp<Omit<ViewStyle, 'backgroundColor' | 'color'>>;
-  textColor?: ProcessedColorValue | null;
+  textColor?: ColorValue;
   textSize?: number;
-  selectTextColor?: ProcessedColorValue | null;
-  selectBackgroundColor?: ProcessedColorValue | null;
-  selectLineColor?: ProcessedColorValue | null;
+  selectTextColor?: ColorValue;
+  selectBackgroundColor?: ColorValue;
+  selectLineColor?: ColorValue;
   selectLineSize?: number;
   isShowSelectLine?: boolean;
   isShowSelectBackground?: boolean;
@@ -99,12 +98,10 @@ const WheelPicker: React.FC<
         selectedIndex={selected}
         data={items}
         onValueChange={onSelect}
-        textColor={processColor(itemStyle.color || style.color)}
+        textColor={itemStyle.color || style.color}
         textSize={itemStyle.fontSize}
-        selectTextColor={processColor(
-          selectedItemStyle.color || itemStyle.color || style.color
-        )}
-        selectBackgroundColor={processColor(selectionColor)}
+        selectTextColor={selectedItemStyle.color || itemStyle.color || style.color}
+        selectBackgroundColor={selectionColor}
       />
     </View>
   );
