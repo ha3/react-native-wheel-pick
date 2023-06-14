@@ -44,16 +44,16 @@ const WheelPicker: React.FC<
   const selectedItemStyle = StyleSheet.flatten(props.selectedItemStyle) || {};
 
   const [items, selected] = React.useMemo(() => {
-    let selected = 0;
+    let _selected = 0;
 
-    const _items = React.Children.toArray(props.children)
+    const _items = React.Children.toArray(children)
       .map((child, index) => {
         if (!React.isValidElement(child)) {
           return;
         }
 
         if (child.props.value === selectedValue) {
-          selected = index;
+          _selected = index;
         }
 
         const { label, value } = child.props;
@@ -66,7 +66,7 @@ const WheelPicker: React.FC<
       })
       .filter(notEmpty);
 
-    return [_items, selected];
+    return [_items, _selected];
   }, [children, selectedValue]);
 
   const onSelect = React.useCallback(
@@ -88,7 +88,7 @@ const WheelPicker: React.FC<
 
       onValueChange(value, childIndex);
     },
-    [children, onValueChange, selectedValue, selected]
+    [children, onValueChange]
   );
 
   return (
