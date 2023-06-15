@@ -296,8 +296,6 @@ public class WheelPicker extends View implements Runnable {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.WheelPicker);
         int idData = a.getResourceId(R.styleable.WheelPicker_wheel_data, 0);
-        mData = Arrays.asList(getResources()
-                .getStringArray(idData == 0 ? R.array.WheelArrayDefault : idData));
         mItemTextSize = a.getDimensionPixelSize(R.styleable.WheelPicker_wheel_item_text_size,
                 getResources().getDimensionPixelSize(R.dimen.WheelItemTextSize));
         mVisibleItemCount = a.getInt(R.styleable.WheelPicker_wheel_visible_item_count, 7);
