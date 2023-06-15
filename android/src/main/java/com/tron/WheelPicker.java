@@ -376,6 +376,8 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
     }
 
     private void computeTextSize() {
+        if (mData == null) return;
+
         mTextMaxWidth = mTextMaxHeight = 0;
         if (hasSameWidth) {
             mTextMaxWidth = (int) mPaint.measureText(String.valueOf(mData.get(0)));
