@@ -2,7 +2,6 @@ package com.tron;
 
 import android.graphics.Color;
 
-import com.aigestudio.wheelpicker.WheelPicker;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableMap;
