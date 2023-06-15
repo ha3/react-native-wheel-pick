@@ -37,7 +37,7 @@ public class ReactWheelCurvedPicker extends WheelPicker {
         setOnWheelChangeListener(new OnWheelChangeListener() {
             @Override
             public void onWheelScrolled(int offset) {
-                Log.d("wheelpicker", "onWheelScrolled: " + Integer.toString(offset))
+                Log.d("wheelpicker", "onWheelScrolled: " + Integer.toString(offset));
             }
 
             @Override
