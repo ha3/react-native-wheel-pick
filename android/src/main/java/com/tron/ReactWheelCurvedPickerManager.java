@@ -79,7 +79,7 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
 
     @ReactProp(name="selectedIndex")
     public void setSelectedIndex(ReactWheelCurvedPicker picker, int index) {
-        Log.d("wheelpicker", "Index from React", Integer.toString(index));
+        Log.d("wheelpicker", "Index from React" + Integer.toString(index));
 
         if (picker != null) {
             picker.setSelectedItemPosition(index);
