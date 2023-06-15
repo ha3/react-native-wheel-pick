@@ -7,8 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.os.SystemClock;
 import android.util.AttributeSet;
-
-// import android.util.Log;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
