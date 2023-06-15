@@ -285,6 +285,8 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
      */
     private String fontPath;
 
+    private int draftSelectedIndex = null;
+
     private boolean isDebug;
 
     public WheelPicker(Context context) {
@@ -851,7 +853,10 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
     }
 
     public void setSelectedItemPosition(int position, final boolean animated) {
-        if (mData == null) return;
+        if (mData == null) {
+            draftSelectedIndex = position;
+            return;
+        }
 
         isTouchTriggered = false;
 
@@ -894,16 +899,15 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
     @Override
     public void setData(List data) {
-        if (null == data)
+        if (null == data) {
             throw new NullPointerException("WheelPicker's data can not be null!");
-        mData = data;
-
-        // 重置位置
-        if (mSelectedItemPosition > data.size() - 1 || mCurrentItemPosition > data.size() - 1) {
-            mSelectedItemPosition = mCurrentItemPosition = data.size() - 1;
-        } else {
-            mSelectedItemPosition = mCurrentItemPosition;
         }
+
+        mData = data;
+        mSelectedItemPosition = mCurrentItemPosition = draftSelectedIndex == null ? 0 : draftSelectedIndex;
+        draftSelectedIndex = null;
+        setSelectedItemPosition(mSelectedItemPosition, true);
+
         mScrollOffsetY = 0;
         computeTextSize();
         computeFlingLimitY();

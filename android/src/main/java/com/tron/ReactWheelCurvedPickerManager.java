@@ -1,6 +1,7 @@
 package com.tron;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableType;
@@ -53,29 +54,33 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
 
     @ReactProp(name="data")
     public void setData(ReactWheelCurvedPicker picker, ReadableArray items) {
-        if (picker != null) {
-            ArrayList<Object> valueData = new ArrayList<>();
-            ArrayList<String> labelData = new ArrayList<>();
-            for (int i = 0; i < items.size(); i ++) {
-                ReadableMap itemMap = items.getMap(i);
-
-                if (itemMap.getType("value") == ReadableType.String) {
-                    valueData.add(itemMap.getString("value"));
-                } else if (itemMap.getType("value") == ReadableType.Number) {
-                    valueData.add(itemMap.getInt("value"));
-                }
-
-                labelData.add(itemMap.getString("label"));
-            }
-            picker.setValueData(valueData);
-            picker.setData(labelData);
+        if (picker == null) {
+            return;
         }
+
+        ArrayList<Object> valueData = new ArrayList<>();
+        ArrayList<String> labelData = new ArrayList<>();
+
+        for (int i = 0; i < items.size(); i ++) {
+            ReadableMap itemMap = items.getMap(i);
+
+            if (itemMap.getType("value") == ReadableType.String) {
+                valueData.add(itemMap.getString("value"));
+            } else if (itemMap.getType("value") == ReadableType.Number) {
+                valueData.add(itemMap.getInt("value"));
+            }
+
+            labelData.add(itemMap.getString("label"));
+        }
+
+        picker.setValueData(valueData);
+        picker.setData(labelData);
     }
 
     @ReactProp(name="selectedIndex")
     public void setSelectedIndex(ReactWheelCurvedPicker picker, int index) {
-        //if (picker != null && picker.getState() == WheelPicker.SCROLL_STATE_IDLE) {
-        // Log.d("Index from React", index + "");
+        Log.d("wheelpicker", "Index from React", Integer.toString(index));
+
         if (picker != null) {
             picker.setSelectedItemPosition(index);
             picker.invalidate();
