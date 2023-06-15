@@ -46,11 +46,7 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         picker.setAtmospheric(true);
         picker.setCurved(true);
         picker.setVisibleItemCount(7);
-
         picker.setItemAlign(0);
-
-        // Trick Code - wake setSelectItemPosition
-        picker.setSelectedItemPosition(1); // Cannot 0 instead of 1, I Don Know why but need this line for make ReactProp selectIndex Work
 
         return picker;
     }
@@ -136,7 +132,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
-    //@ReactProp(name="curtain")
     @ReactProp(name="isShowSelectBackground")
     public void setCurtain(ReactWheelCurvedPicker picker, boolean hasCurtain) {
         if (picker != null) {
@@ -144,7 +139,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
-    //@ReactProp(name="curtainColor", customType = "Color")
     @ReactProp(name="selectBackgroundColor", customType = "Color")
     public void setCurtainColor(ReactWheelCurvedPicker picker, Integer color) {
         if (picker != null) {
@@ -152,7 +146,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
-    // @ReactProp(name="indicator")
     @ReactProp(name="isShowSelectLine")
     public void setIndicator(ReactWheelCurvedPicker picker, boolean hasIndicator) {
         if (picker != null) {
@@ -160,7 +153,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
-    //@ReactProp(name="indicatorColor", customType = "Color")
     @ReactProp(name="selectLineColor", customType = "Color")
     public void setIndicatorColor(ReactWheelCurvedPicker picker, Integer color) {
         if (picker != null) {
@@ -168,7 +160,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         }
     }
 
-    //@ReactProp(name="indicatorSize")
     @ReactProp(name="selectLineSize")
     public void setIndicatorSize(ReactWheelCurvedPicker picker, int size) {
         if (picker != null) {
