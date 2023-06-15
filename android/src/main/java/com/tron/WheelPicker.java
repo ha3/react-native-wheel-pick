@@ -810,11 +810,6 @@ public class WheelPicker extends View implements Runnable {
     }
 
     @Override
-    public void setDebug(boolean isDebug) {
-        this.isDebug = isDebug;
-    }
-
-    @Override
     public int getVisibleItemCount() {
         return mVisibleItemCount;
     }
