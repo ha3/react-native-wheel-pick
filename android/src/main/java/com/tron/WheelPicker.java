@@ -851,20 +851,27 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
     }
 
     public void setSelectedItemPosition(int position, final boolean animated) {
-      isTouchTriggered = false;
-      if (animated && mScroller.isFinished()) { // We go non-animated regardless of "animated" parameter if scroller is in motion
-        int length = getData().size();
-        int itemDifference = position - mCurrentItemPosition;
-        if (itemDifference == 0)
-          return;
-        if (isCyclic && Math.abs(itemDifference) > (length / 2)) { // Find the shortest path if it's cyclic
-          itemDifference += (itemDifference > 0) ? -length : length;
+        if (mData == null) return;
+
+        isTouchTriggered = false;
+
+        if (animated && mScroller.isFinished()) { // We go non-animated regardless of "animated" parameter if scroller is in motion
+            int length = getData().size();
+            int itemDifference = position - mCurrentItemPosition;
+            if (itemDifference == 0)
+                return;
+            if (isCyclic && Math.abs(itemDifference) > (length / 2)) { // Find the shortest path if it's cyclic
+                itemDifference += (itemDifference > 0) ? -length : length;
+            }
+            mScroller.startScroll(0, mScroller.getCurrY(), 0, (-itemDifference) * mItemHeight);
+            mHandler.post(this);
+            return;
         }
-        mScroller.startScroll(0, mScroller.getCurrY(), 0, (-itemDifference) * mItemHeight);
-        mHandler.post(this);
-      } else {
-        if (!mScroller.isFinished())
-          mScroller.abortAnimation();
+
+        if (!mScroller.isFinished()) {
+            mScroller.abortAnimation();
+        }
+
         position = Math.min(position, mData.size() - 1);
         position = Math.max(position, 0);
         mSelectedItemPosition = position;
@@ -873,7 +880,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         computeFlingLimitY();
         requestLayout();
         invalidate();
-      }
     }
 
     @Override
