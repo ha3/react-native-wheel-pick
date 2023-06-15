@@ -36,13 +36,10 @@ public class ReactWheelCurvedPicker extends WheelPicker {
         setOnWheelChangeListener(new OnWheelChangeListener() {
             @Override
             public void onWheelScrolled(int offset) {
-                Log.d("wheelpicker", "onWheelScrolled: " + Integer.toString(offset));
             }
 
             @Override
             public void onWheelSelected(int position) {
-                Log.d("onWheelSelected", "Wheel Selected: " + Integer.toString(position));
-
                 if (mValueData != null && position < mValueData.size()) {
                     mEventDispatcher.dispatchEvent(
                         new ItemSelectedEvent(getId(), mValueData.get(position)));
@@ -51,7 +48,6 @@ public class ReactWheelCurvedPicker extends WheelPicker {
 
             @Override
             public void onWheelScrollStateChanged(int state) {
-                Log.d("onWheelSelected", "onWheelScrollStateChanged: " + Integer.toString(state));
                 //mState = state;
             }
         });

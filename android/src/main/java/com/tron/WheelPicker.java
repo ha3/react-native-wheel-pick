@@ -803,18 +803,18 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
             mCurrentItemPosition = position;
 
-            if (null != mOnItemSelectedListener && isTouchTriggered) {
+            if (mOnItemSelectedListener != null && isTouchTriggered) {
                 mOnItemSelectedListener.onItemSelected(this, mData.get(position), position);
             }
 
-            if (null != mOnWheelChangeListener && isTouchTriggered) {
+            if (mOnWheelChangeListener != null && isTouchTriggered) {
                 mOnWheelChangeListener.onWheelSelected(position);
                 mOnWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_IDLE);
             }
         }
 
         if (mScroller.computeScrollOffset()) {
-            if (null != mOnWheelChangeListener) {
+            if (mOnWheelChangeListener != null) {
                 mOnWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_SCROLLING);
             }
 
@@ -890,9 +890,16 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
         position = Math.min(position, mData.size() - 1);
         position = Math.max(position, 0);
+
+        int prevSelectedItemPosition = mSelectedItemPosition;
         mSelectedItemPosition = position;
         mCurrentItemPosition = position;
         mScrollOffsetY = 0;
+
+        if (mOnWheelChangeListener != null && position != prevSelectedItemPosition) {
+            mOnWheelChangeListener.onWheelSelected(position);
+        }
+
         computeFlingLimitY();
         requestLayout();
         invalidate();
