@@ -285,7 +285,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
      */
     private String fontPath;
 
-    private int draftSelectedIndex = null;
+    private Integer draftSelectedIndex = null;
 
     private boolean isDebug;
 
