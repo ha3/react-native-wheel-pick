@@ -36,7 +36,7 @@ import java.util.List;
  *         New project structure
  * @version 1.1.0
  */
-public class WheelPicker extends View implements Runnable {
+public class WheelPicker extends View implements IWheelPicker, Runnable {
     /**
      * 滚动状态标识值
      *
