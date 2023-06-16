@@ -37,7 +37,8 @@ const WheelPicker: React.FC<
     enabled = true,
     selectionColor,
     selectedValue,
-    onValueChange
+    onValueChange,
+    debugName
   } = props;
   const itemStyle = StyleSheet.flatten(props.itemStyle) || {};
   const style = StyleSheet.flatten(props.style) || {};
@@ -81,8 +82,7 @@ const WheelPicker: React.FC<
       );
 
       if (childIndex === -1) {
-        // @ts-expect-error
-        onValueChange(null, -1);
+        console.warn("not found", value);
         return;
       }
 
@@ -105,6 +105,7 @@ const WheelPicker: React.FC<
         textSize={itemStyle.fontSize}
         selectTextColor={selectedItemStyle.color || itemStyle.color || style.color}
         selectBackgroundColor={selectionColor}
+        debugName={debugName}
       />
     </View>
   );
