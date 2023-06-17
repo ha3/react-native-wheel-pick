@@ -3,6 +3,7 @@ package com.tron;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableMap;
@@ -11,6 +12,7 @@ import com.facebook.react.uimanager.PixelUtil;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.annotations.ReactPropGroup;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -48,43 +50,9 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         picker.setCurved(true);
         picker.setVisibleItemCount(7);
         picker.setItemAlign(0);
+        picker.setSelectedItemPosition(1);
 
         return picker;
-    }
-
-    @ReactProp(name="data")
-    public void setData(ReactWheelCurvedPicker picker, ReadableArray items) {
-        if (picker == null) {
-            return;
-        }
-
-        ArrayList<Object> valueData = new ArrayList<>();
-        ArrayList<String> labelData = new ArrayList<>();
-
-        for (int i = 0; i < items.size(); i ++) {
-            ReadableMap itemMap = items.getMap(i);
-
-            if (itemMap.getType("value") == ReadableType.String) {
-                valueData.add(itemMap.getString("value"));
-            } else if (itemMap.getType("value") == ReadableType.Number) {
-                valueData.add(itemMap.getInt("value"));
-            }
-
-            labelData.add(itemMap.getString("label"));
-        }
-
-        picker.setValueData(valueData);
-        picker.setData(labelData);
-    }
-
-    @ReactProp(name="selectedIndex")
-    public void setSelectedIndex(ReactWheelCurvedPicker picker, int index) {
-        Log.d("wheelpicker", "Index from React" + Integer.toString(index));
-
-        if (picker != null) {
-            picker.setSelectedItemPosition(index);
-            picker.invalidate();
-        }
     }
 
     // @ReactProp(name="atmospheric")
@@ -120,6 +88,43 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
     public void setTextColor(ReactWheelCurvedPicker picker, String name) {
         if (picker != null) {
             picker.setDebugName(name);
+        }
+    }
+
+    @ReactPropGroup(names = {"data", "selectedIndex"})
+    public void setDataAndIndex(ReactWheelCurvedPicker picker, int index, Dynamic value) {
+        if (picker == null) {
+            return;
+        }
+
+        Log.d("wheelpicker", "index is: " + Integer.toString(index));
+
+        if (index == 0) {
+            ReadableArray items = value.asArray();
+
+            ArrayList<Object> valueData = new ArrayList<>();
+            ArrayList<String> labelData = new ArrayList<>();
+
+            for (int i = 0; i < items.size(); i ++) {
+                ReadableMap itemMap = items.getMap(i);
+
+                if (itemMap.getType("value") == ReadableType.String) {
+                    valueData.add(itemMap.getString("value"));
+                } else if (itemMap.getType("value") == ReadableType.Number) {
+                    valueData.add(itemMap.getInt("value"));
+                }
+
+                labelData.add(itemMap.getString("label"));
+            }
+
+            picker.setValueData(valueData);
+            picker.setData(labelData);
+        }
+
+        if (index == 1) {
+            int selectedIndex = value.asInt();
+            picker.setSelectedItemPosition(selectedIndex);
+            picker.invalidate();
         }
     }
 

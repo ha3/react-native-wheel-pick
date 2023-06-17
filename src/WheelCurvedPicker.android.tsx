@@ -82,7 +82,9 @@ const WheelPicker: React.FC<
       );
 
       if (childIndex === -1) {
-        console.warn("not found", value);
+        if (__DEV__) {
+          console.warn('not found', value);
+        }
         return;
       }
 
@@ -97,15 +99,15 @@ const WheelPicker: React.FC<
       style={removeKeys(style, ['backgroundColor'])}
     >
       <WheelPickerView
-        style={style}
-        selectedIndex={selected}
+        debugName={debugName}
         data={items}
         onValueChange={onSelect}
+        selectedIndex={selected}
+        style={style}
         textColor={itemStyle.color || style.color}
         textSize={itemStyle.fontSize}
         selectTextColor={selectedItemStyle.color || itemStyle.color || style.color}
         selectBackgroundColor={selectionColor}
-        debugName={debugName}
       />
     </View>
   );
