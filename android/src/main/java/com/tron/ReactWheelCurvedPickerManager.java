@@ -1,7 +1,6 @@
 package com.tron;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReadableArray;
@@ -91,8 +90,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         if (picker == null) {
             return;
         }
-
-        Log.d("wheelpicker", "index is: " + Integer.toString(index));
 
         if (index == 0) {
             ReadableArray items = value.asArray();

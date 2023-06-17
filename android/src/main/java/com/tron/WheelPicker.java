@@ -289,8 +289,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
     private boolean isDebug;
 
-    private String mDebugName;
-
     public WheelPicker(Context context) {
         this(context, null);
     }
@@ -694,10 +692,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         return (int) (mHalfWheelHeight - Math.cos(Math.toRadians(degree)) * mHalfWheelHeight);
     }
 
-    public void setDebugName(String name) {
-        mDebugName = name;
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -870,13 +864,11 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
     public void setSelectedItemPosition(int position, final boolean animated) {
         if (mData == null) {
-            Log.d("wheelpicker", "mData is null " + Integer.toString(position));
             draftSelectedIndex = position;
             return;
         }
 
         isTouchTriggered = false;
-        String debugName = mDebugName != null ? mDebugName : "unknown";
 
         if (animated && mScroller.isFinished()) { // We go non-animated regardless of "animated" parameter if scroller is in motion
             int length = getData().size();
@@ -888,7 +880,10 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             }
             mScroller.startScroll(0, mScroller.getCurrY(), 0, (-itemDifference) * mItemHeight);
 
-            Log.d("wheelpicker", debugName + " [1] set change with: " + Integer.toString(position) + ". Prev: " + Integer.toString(mCurrentItemPosition) + ". Alt: " + Integer.toString(mSelectedItemPosition) + ". Item diff: " + Integer.toString(itemDifference) + ". currY: " + Integer.toString(mScroller.getCurrY()));
+            if (isDebug) {
+                Log.d("wheelpicker", "[1] set change with: " + Integer.toString(position) + ". Prev: " + Integer.toString(mCurrentItemPosition) + ". Alt: " + Integer.toString(mSelectedItemPosition) + ". Item diff: " + Integer.toString(itemDifference));
+            }
+
             if (mOnWheelChangeListener != null && position != mCurrentItemPosition) {
                 mOnWheelChangeListener.onWheelSelected(position);
             }
@@ -910,7 +905,10 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         mCurrentItemPosition = position;
         mScrollOffsetY = 0;
 
-        Log.d("wheelpicker", debugName + " [2] set change with: " + Integer.toString(position) + ". Prev: " + Integer.toString(prevSelectedItemPosition) + ". Alt: " + Integer.toString(mSelectedItemPosition));
+        if (isDebug) {
+            Log.d("wheelpicker", "[2] set change with: " + Integer.toString(position) + ". Prev: " + Integer.toString(prevSelectedItemPosition) + ". Alt: " + Integer.toString(mSelectedItemPosition));
+        }
+
         if (mOnWheelChangeListener != null && position != prevSelectedItemPosition) {
             mOnWheelChangeListener.onWheelSelected(position);
         }
@@ -937,8 +935,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         }
 
         mData = data;
-        String debugName = mDebugName != null ? mDebugName : "unknown";
-        Log.d("wheelpicker", "set data[" + debugName + "]: " + (draftSelectedIndex == null ? "null" : Integer.toString(draftSelectedIndex)));
 
         if (draftSelectedIndex != null) {
             setSelectedItemPosition(draftSelectedIndex, true);
@@ -950,10 +946,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         computeFlingLimitY();
         requestLayout();
         invalidate();
-    }
-
-    public String getDebugName() {
-        return mDebugName;
     }
 
     public void setSameWidth(boolean hasSameWidth) {
