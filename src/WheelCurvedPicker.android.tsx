@@ -38,7 +38,6 @@ const WheelPicker: React.FC<
     selectionColor,
     selectedValue,
     onValueChange,
-    debugName
   } = props;
   const itemStyle = StyleSheet.flatten(props.itemStyle) || {};
   const style = StyleSheet.flatten(props.style) || {};
@@ -99,7 +98,6 @@ const WheelPicker: React.FC<
       style={removeKeys(style, ['backgroundColor'])}
     >
       <WheelPickerView
-        debugName={debugName}
         data={items}
         onValueChange={onSelect}
         selectedIndex={selected}

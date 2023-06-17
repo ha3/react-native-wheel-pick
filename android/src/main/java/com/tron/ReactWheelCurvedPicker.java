@@ -90,10 +90,10 @@ class ItemSelectedEvent extends Event<ItemSelectedEvent> {
 
     private WritableMap serializeEventData() {
         WritableMap eventData = Arguments.createMap();
-
         Class mValueClass = mValue.getClass();
-        if (mValueClass == Integer.class) {
-            eventData.putInt("data", (Integer) mValue);
+
+        if (mValueClass == Double.class) {
+            eventData.putDouble("data", (Double) mValue);
         } else if (mValueClass == String.class) {
             eventData.putString("data", mValue.toString());
         }

@@ -50,6 +50,8 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
         picker.setCurved(true);
         picker.setVisibleItemCount(7);
         picker.setItemAlign(0);
+
+        // to warm item position. this is necessary for setting selectedIndex via js-side for unknown reasons.
         picker.setSelectedItemPosition(1);
 
         return picker;
@@ -84,13 +86,6 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
     //     }
     // }
 
-    @ReactProp(name="debugName")
-    public void setTextColor(ReactWheelCurvedPicker picker, String name) {
-        if (picker != null) {
-            picker.setDebugName(name);
-        }
-    }
-
     @ReactPropGroup(names = {"data", "selectedIndex"})
     public void setDataAndIndex(ReactWheelCurvedPicker picker, int index, Dynamic value) {
         if (picker == null) {
@@ -111,7 +106,7 @@ public class ReactWheelCurvedPickerManager extends SimpleViewManager<ReactWheelC
                 if (itemMap.getType("value") == ReadableType.String) {
                     valueData.add(itemMap.getString("value"));
                 } else if (itemMap.getType("value") == ReadableType.Number) {
-                    valueData.add(itemMap.getInt("value"));
+                    valueData.add(itemMap.getDouble("value"));
                 }
 
                 labelData.add(itemMap.getString("label"));
