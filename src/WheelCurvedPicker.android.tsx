@@ -76,6 +76,11 @@ const WheelPicker: React.FC<
       }
 
       const { data: value }: { data: number } = nativeEvent;
+
+      if (value === selectedValue) {
+        return;
+      }
+
       const childIndex = React.Children.toArray(children).findIndex(
         child => React.isValidElement(child) && child.props.value === value
       );
@@ -89,7 +94,7 @@ const WheelPicker: React.FC<
 
       onValueChange(value, childIndex);
     },
-    [children, onValueChange]
+    [children, selectedValue, onValueChange]
   );
 
   return (
