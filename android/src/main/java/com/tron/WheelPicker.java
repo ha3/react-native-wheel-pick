@@ -859,10 +859,10 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
     @Override
     public void setSelectedItemPosition(int position) {
-        setSelectedItemPosition(position, true);
+        setSelectedItemPosition(position, true, false);
     }
 
-    public void setSelectedItemPosition(int position, final boolean animated) {
+    public void setSelectedItemPosition(int position, final boolean animated, boolean isSetFromData) {
         if (mData == null) {
             draftSelectedIndex = position;
             return;
@@ -873,8 +873,9 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         if (animated && mScroller.isFinished()) { // We go non-animated regardless of "animated" parameter if scroller is in motion
             int length = getData().size();
             int itemDifference = position - mCurrentItemPosition;
-            if (itemDifference == 0)
+            if (itemDifference == 0) {
                 return;
+            }
             if (isCyclic && Math.abs(itemDifference) > (length / 2)) { // Find the shortest path if it's cyclic
                 itemDifference += (itemDifference > 0) ? -length : length;
             }
@@ -884,7 +885,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
                 Log.d("wheelpicker", "[1] set change with: " + Integer.toString(position) + ". Prev: " + Integer.toString(mCurrentItemPosition) + ". Alt: " + Integer.toString(mSelectedItemPosition) + ". Item diff: " + Integer.toString(itemDifference));
             }
 
-            if (mOnWheelChangeListener != null && position != mCurrentItemPosition) {
+            if (mOnWheelChangeListener != null && position != mCurrentItemPosition && isSetFromData != true) {
                 mOnWheelChangeListener.onWheelSelected(position);
             }
 
@@ -937,7 +938,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         mData = data;
 
         if (draftSelectedIndex != null) {
-            setSelectedItemPosition(draftSelectedIndex, true);
+            setSelectedItemPosition(draftSelectedIndex, true, true);
             draftSelectedIndex = null;
         }
 
