@@ -13,6 +13,8 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 31
     buildToolsVersion '31.0.0'
+
+    namespace "com.tron"
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 31
